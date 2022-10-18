@@ -1,20 +1,25 @@
 package SKNI.KOD.Literaki.DTO.response;
 
-import lombok.AllArgsConstructor;
+import SKNI.KOD.Literaki.entity.user.Profile;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class ProfileResponse {
     private Long id;
     private String username;
     private byte icon;
     private int ranking;
     private Timestamp creationDate;
+
+    public ProfileResponse(Profile profile) {
+        this.id = profile.getId();
+        this.username = profile.getUsername();
+        this.icon = profile.getIcon();
+        this.ranking = profile.getRanking();
+        this.creationDate = profile.getCrationDate();
+    }
 }

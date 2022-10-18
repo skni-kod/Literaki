@@ -5,14 +5,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @Table(schema="Games", catalog = "proj", name="Words")
-public class WordsArranged {
+public class Words {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
@@ -40,7 +39,7 @@ public class WordsArranged {
     private int points = 0;
 
 
-    public WordsArranged(Long gameId, Long playerId) {
+    public Words(Long gameId, Long playerId) {
         this.gameId = gameId;
         this.playerId = playerId;
         //TODO: uncomment when Field entity created

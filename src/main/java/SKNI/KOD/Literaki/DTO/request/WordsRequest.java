@@ -12,6 +12,9 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WordsRequest {
+    private Long gameId;
+    private Long playerId;
+    private int points;
     @NotNull
     private Long id;
 }

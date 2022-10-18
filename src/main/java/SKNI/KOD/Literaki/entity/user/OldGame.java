@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(schema="user", catalog = "proj", name="OldGames")
-public class OldGames {
+public class OldGame {
 
     @Id
     @Column(unique = true, nullable = false)
@@ -46,7 +46,7 @@ public class OldGames {
     private Long result = null;
 
 
-    public OldGames(Long id, Profile player1, Profile player2, int pointsPlayer1, int pointsPlayer2, boolean state, Long winner) {
+    public OldGame(Long id, Profile player1, Profile player2, int pointsPlayer1, int pointsPlayer2, boolean state, Long winner) {
         this.id = id;
         this.player1 = player1;
         this.player2 = player2;
