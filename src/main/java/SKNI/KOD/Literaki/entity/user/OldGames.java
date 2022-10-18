@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(schema="Games", catalog = "proj", name="OldGames")
+@Table(schema="user", catalog = "proj", name="OldGames")
 public class OldGames {
 
     @Id
@@ -19,13 +19,13 @@ public class OldGames {
 
     @Id
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(schema = "security", name = "login")
+    @JoinTable(schema = "user", name = "Profile")
     @JoinColumn(referencedColumnName = "id")
     private Profile player1;
 
     @Id
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(schema = "security", name = "login")
+    @JoinTable(schema = "user", name = "Profile")
     @JoinColumn(referencedColumnName = "id")
     private Profile player2;
 

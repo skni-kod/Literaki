@@ -13,6 +13,33 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @Table(schema="Games", catalog = "proj", name="Words")
 public class WordsArranged {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private Long id;
+
+    @Id
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(schema = "Games", name = "Games")
+    @JoinColumn(referencedColumnName = "id")
+    private Long gameId;
+
+    @Id
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(schema = "security", name = "login")
+    @JoinColumn(referencedColumnName = "id")
+    private Long playerId;
+
+    //TODO: uncomment when Field entity created
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinTable(schema = "Games", name = "Fields")
+//    @JoinColumn(referencedColumnName = "id")
+//    private List<Field> fieldlist = new ArrayList<Field>();
+
+    @Column(nullable = false)
+    private int points = 0;
+
+
     public WordsArranged(Long gameId, Long playerId) {
         this.gameId = gameId;
         this.playerId = playerId;
@@ -50,31 +77,4 @@ public class WordsArranged {
     public void setPoints(int points) {
         this.points = points;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Long id;
-
-    @Id
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(schema = "Games", name = "Games")
-    @JoinColumn(referencedColumnName = "id")
-    private Long gameId;
-
-    @Id
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(schema = "security", name = "login")
-    @JoinColumn(referencedColumnName = "id")
-    private Long playerId;
-
-    //TODO: uncomment when Field entity created
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinTable(schema = "Games", name = "Fields")
-//    @JoinColumn(referencedColumnName = "id")
-//    private List<Field> fieldlist = new ArrayList<Field>();
-
-    @Column(nullable = false)
-    private int points = 0;
-    
 }

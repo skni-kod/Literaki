@@ -13,6 +13,38 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(schema="Games", catalog = "proj", name="Games")
 public class Game {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private Long id;
+
+    @Id
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(schema = "user", name = "Profile")
+    @JoinColumn(referencedColumnName = "id")
+    private Profile player1;
+
+    @Id
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(schema = "user", name = "Profile")
+    @JoinColumn(referencedColumnName = "id")
+    private Profile player2;
+
+    @Column(nullable = false)
+    private int pointsPlayer1 = 0;
+
+    @Column(nullable = false)
+    private int pointsPlayer2 = 0;
+
+    @Column(nullable = false)
+    private boolean state = false;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(schema = "Games", name = "Board")
+    @JoinColumn(referencedColumnName = "id")
+    private Long idBoard;
+
+
     public Game(Profile player1, Profile player2) {
         this.player1 = player1;
         this.player2 = player2;
@@ -58,35 +90,4 @@ public class Game {
     public Long getIdBoard() {
         return idBoard;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Long id;
-
-    @Id
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(schema = "security", name = "login")
-    @JoinColumn(referencedColumnName = "id")
-    private Profile player1;
-
-    @Id
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(schema = "security", name = "login")
-    @JoinColumn(referencedColumnName = "id")
-    private Profile player2;
-
-    @Column(nullable = false)
-    private int pointsPlayer1 = 0;
-
-    @Column(nullable = false)
-    private int pointsPlayer2 = 0;
-
-    @Column(nullable = false)
-    private boolean state = false;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(schema = "Games", name = "Board")
-    @JoinColumn(referencedColumnName = "id")
-    private Long idBoard;
 }
