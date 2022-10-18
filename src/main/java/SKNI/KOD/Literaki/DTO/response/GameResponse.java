@@ -18,7 +18,7 @@ public class GameResponse {
     private int pointsPlayer1;
     private int pointsPlayer2;
     private boolean state;
-    private Long idBoard;
+    //private Long idBoard;
 
     public GameResponse(Game game) {
         this.id = game.getId();
@@ -27,6 +27,6 @@ public class GameResponse {
         this.pointsPlayer1 = game.getPointsPlayer1();
         this.pointsPlayer2 = game.getPointsPlayer2();
         this.state = game.isState();
-        this.idBoard = game.getIdBoard();
+        //this.idBoard = game.getIdBoard();
     }
 }

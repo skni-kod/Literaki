@@ -11,23 +11,22 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(schema="Games", catalog = "proj", name="Games")
+@Table(schema="games", name="games")
+@SecondaryTable(name="user.profile")
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @Id
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(schema = "user", name = "Profile")
-    @JoinColumn(referencedColumnName = "id")
+    @Embedded
+    @OneToOne(optional = false)
+    @JoinColumn(table="user.profile", name="id", nullable = false)
     private Profile player1;
 
-    @Id
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(schema = "user", name = "Profile")
-    @JoinColumn(referencedColumnName = "id")
+
+    @OneToOne(optional = false)
+    @JoinColumn(table="user.profile", name="id", nullable = false)
     private Profile player2;
 
     @Column(nullable = false)
@@ -39,10 +38,9 @@ public class Game {
     @Column(nullable = false)
     private boolean state = false;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(schema = "Games", name = "Board")
-    @JoinColumn(referencedColumnName = "id")
-    private Long idBoard;
+    //TODO: fix when add Board table
+//    @Embedded
+//    private Long idBoard;
 
 
     public Game(Profile player1, Profile player2) {
@@ -87,7 +85,7 @@ public class Game {
         return state;
     }
 
-    public Long getIdBoard() {
-        return idBoard;
-    }
+//    public Long getIdBoard() {
+//        return idBoard;
+//    }
 }

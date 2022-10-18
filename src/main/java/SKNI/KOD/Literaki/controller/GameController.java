@@ -8,11 +8,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("games")
-public class GamesController {
+public class GameController {
 
     private final GameRepository repository;
 
-    public GamesController(GameRepository repository) {
+    public GameController(GameRepository repository) {
         this.repository = repository;
     }
 

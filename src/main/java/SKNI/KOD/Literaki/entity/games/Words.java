@@ -3,6 +3,7 @@ package SKNI.KOD.Literaki.entity.games;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.Mapping;
 
 import javax.persistence.*;
 
@@ -10,29 +11,23 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(schema="Games", catalog = "proj", name="Words")
+@Table(schema="games", name="words")
+@SecondaryTables({@SecondaryTable(name = "games.games"), @SecondaryTable(name="user.profile")})
 public class Words {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @Id
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(schema = "Games", name = "Games")
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(table="games.games", name="id", nullable = false)
     private Long gameId;
 
-    @Id
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(schema = "security", name = "login")
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(table="user.profile", name="id", nullable = false)
     private Long playerId;
 
-    //TODO: uncomment when Field entity created
+    //TODO: fix  when Field entity created
 //    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinTable(schema = "Games", name = "Fields")
-//    @JoinColumn(referencedColumnName = "id")
+//    @JoinColumn(table="Games.Fields", name="id", nullable = false)
 //    private List<Field> fieldlist = new ArrayList<Field>();
 
     @Column(nullable = false)

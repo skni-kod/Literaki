@@ -1,6 +1,7 @@
 package SKNI.KOD.Literaki.entity.user;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -11,12 +12,14 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(schema="user", catalog = "proj")
+@Table(schema="user", name="profile")
+@SecondaryTable(name = "security.login")
 public class Profile {
+
     @Id
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(schema = "security", name = "login")
-    @JoinColumn(referencedColumnName = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    @JoinColumn(table="security.login", name="id", nullable = false)
     private Long id;
 
     @Column(unique = true, nullable = false)

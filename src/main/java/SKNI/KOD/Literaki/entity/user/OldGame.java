@@ -10,39 +10,32 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(schema="user", catalog = "proj", name="OldGames")
+@Table(schema="user", name="OldGames")
+@SecondaryTables({@SecondaryTable(name = "games.Board"), @SecondaryTable(name="user.profile")})
 public class OldGame {
 
     @Id
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @Id
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(schema = "user", name = "Profile")
-    @JoinColumn(referencedColumnName = "id")
+
+    @OneToOne(optional = false)
+    @JoinColumn(table="user.profile", name="id", nullable = false)
     private Profile player1;
 
-    @Id
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(schema = "user", name = "Profile")
-    @JoinColumn(referencedColumnName = "id")
+
+    @OneToOne(optional = false)
+    @JoinColumn(table="user.profile", name="id", nullable = false)
     private Profile player2;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(schema = "Games", name = "Board")
-    @JoinColumn(referencedColumnName = "id")
+    @Column(nullable = false)
     private int pointsPlayer1 = 0;
 
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(schema = "Games", name = "Board")
-    @JoinColumn(referencedColumnName = "id")
+    @Column(nullable = false)
     private int pointsPlayer2 = 0;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(schema = "security", name = "security")
-    @JoinColumn(referencedColumnName = "id")
+
+    @Column(nullable = false)
     private Long result = null;
 
 
