@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(schema="security")
+@Table(schema="security", catalog = "proj")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

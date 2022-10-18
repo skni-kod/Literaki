@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = "username"),
         @UniqueConstraint(columnNames = "email")
-},schema = "security")
+},schema = "security", catalog = "proj")
 @Builder
 
 public class Login {
