@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpaLiquibaseChangesConfig">
+    <exclude-change idName="security#login2role" tagName="createTable" />
+    <exclude-change idName="security#login#email" tagName="addUniqueConstraint" />
+    <exclude-change idName="security#login#username" tagName="addUniqueConstraint" />
+    <exclude-change idName="security#login#id" tagName="addUniqueConstraint" />
+    <exclude-change idName="security#login_roles#login_id" tagName="addUniqueConstraint" />
+    <exclude-change idName="FK_LOGIN2ROLE_ON_LOGIN" tagName="addForeignKeyConstraint" />
+    <exclude-change idName="FK_LOGIN2ROLE_ON_ROLE" tagName="addForeignKeyConstraint" />
+    <exclude-change idName="fk_logrol_on_login" tagName="addForeignKeyConstraint" />
+    <exclude-change idName="fk_logrol_on_role" tagName="addForeignKeyConstraint" />
+    <exclude-change idName="security#login_roles#id" tagName="dropColumn" />
+    <exclude-change idName="security#login_roles#login_id, role_id" tagName="addPrimaryKey" />
+  </component>
+</project>

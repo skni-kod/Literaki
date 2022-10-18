@@ -11,23 +11,22 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(schema="games", name="games")
-@SecondaryTable(name="user.profile")
+@Table(schema = "games", name="game")
 public class Game {
     @Id
+    @Column(unique = true, nullable = false, name="gameId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    private Long id;
-
-    @Embedded
-    @OneToOne(optional = false)
-    @JoinColumn(table="user.profile", name="id", nullable = false)
-    private Profile player1;
+    private Long gameID;
 
 
-    @OneToOne(optional = false)
-    @JoinColumn(table="user.profile", name="id", nullable = false)
-    private Profile player2;
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName ="playerId", nullable = false, insertable = false, updatable = false)
+    private Profile playerOne;
+
+
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName ="playerId", nullable = false, insertable = false, updatable = false)
+    private Profile playerTwo;
 
     @Column(nullable = false)
     private int pointsPlayer1 = 0;
@@ -43,9 +42,9 @@ public class Game {
 //    private Long idBoard;
 
 
-    public Game(Profile player1, Profile player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public Game(Profile playerOne, Profile playerTwo) {
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
         //TODO: here should be called constructor of Board and returned to this.idBoard
     }
 
@@ -61,16 +60,16 @@ public class Game {
         this.state = state;
     }
 
-    public Long getId() {
-        return id;
+    public Long getGameID() {
+        return gameID;
     }
 
     public Profile getIdPlayer1() {
-        return player1;
+        return playerOne;
     }
 
     public Profile getIdPlayer2() {
-        return player2;
+        return playerTwo;
     }
 
     public int getPointsPlayer1() {

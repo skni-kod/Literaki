@@ -12,17 +12,16 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(schema="games", name="words")
-@SecondaryTables({@SecondaryTable(name = "games.games"), @SecondaryTable(name="user.profile")})
 public class Words {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, name="wordsId")
     private Long id;
 
-    @JoinColumn(table="games.games", name="id", nullable = false)
+    @JoinColumn(referencedColumnName ="gameId", nullable = false)
     private Long gameId;
 
-    @JoinColumn(table="user.profile", name="id", nullable = false)
+    @JoinColumn(referencedColumnName ="playerId", nullable = false)
     private Long playerId;
 
     //TODO: fix  when Field entity created

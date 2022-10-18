@@ -16,7 +16,7 @@ public class OldGameResponse {
     private Long result;
 
     public OldGameResponse(OldGame oldGame) {
-        this.id = oldGame.getId();
+        this.id = oldGame.getOldGameId();
         this.player1 = oldGame.getPlayer1();
         this.player2 = oldGame.getPlayer2();
         this.pointsPlayer1 = oldGame.getPointsPlayer1();

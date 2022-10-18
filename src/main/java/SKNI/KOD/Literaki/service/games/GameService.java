@@ -53,7 +53,7 @@ public class GameService {
             OldGameService oldGameService = new OldGameService();
             Long pct1 = Long.valueOf(game.getPointsPlayer1());
             Long pct2 = Long.valueOf(game.getPointsPlayer2());
-            Long winner = pct1 == pct2 ? null : (pct1 > pct2 ? game.getPlayer1().getId() : game.getPlayer2().getId());
+            Long winner = pct1 == pct2 ? null : (pct1 > pct2 ? game.getPlayerOne().getPlayerId() : game.getPlayerTwo().getPlayerId());
             oldGameService.saveOldGame(game, winner);
             gameRepository.delete(game);
         }

@@ -30,7 +30,7 @@ public class OldGameService {
     }
 
     public OldGameResponse saveOldGame(Game game, Long winner){
-        OldGame oldGame = new OldGame(game.getId(), game.getPlayer1(), game.getPlayer2(), game.getPointsPlayer1(), game.getPointsPlayer2(), true, winner);
+        OldGame oldGame = new OldGame(game.getGameID(), game.getPlayerOne(), game.getPlayerTwo(), game.getPointsPlayer1(), game.getPointsPlayer2(), true, winner);
         return new OldGameResponse(oldGame);
     }
 

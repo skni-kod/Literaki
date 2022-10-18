@@ -10,22 +10,21 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(schema="user", name="OldGames")
-@SecondaryTables({@SecondaryTable(name = "games.Board"), @SecondaryTable(name="user.profile")})
+@Table(schema="players", name="OldGames")
 public class OldGame {
 
     @Id
-    @Column(unique = true, nullable = false)
-    private Long id;
+    @Column(unique = true, nullable = false, name="oldGameId")
+    private Long oldGameId;
 
 
     @OneToOne(optional = false)
-    @JoinColumn(table="user.profile", name="id", nullable = false)
+    @JoinColumn(referencedColumnName ="playerId", nullable = false, insertable = false, updatable = false)
     private Profile player1;
 
 
     @OneToOne(optional = false)
-    @JoinColumn(table="user.profile", name="id", nullable = false)
+    @JoinColumn(referencedColumnName ="playerId", nullable = false, insertable = false, updatable = false)
     private Profile player2;
 
     @Column(nullable = false)
@@ -39,8 +38,8 @@ public class OldGame {
     private Long result = null;
 
 
-    public OldGame(Long id, Profile player1, Profile player2, int pointsPlayer1, int pointsPlayer2, boolean state, Long winner) {
-        this.id = id;
+    public OldGame(Long oldGameId, Profile player1, Profile player2, int pointsPlayer1, int pointsPlayer2, boolean state, Long winner) {
+        this.oldGameId = oldGameId;
         this.player1 = player1;
         this.player2 = player2;
         this.pointsPlayer1 = pointsPlayer1;
@@ -52,8 +51,8 @@ public class OldGame {
         return result;
     }
 
-    public Long getId() {
-        return id;
+    public Long getOldGameId() {
+        return oldGameId;
     }
 
     public Profile getPlayer1() {

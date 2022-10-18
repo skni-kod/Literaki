@@ -21,9 +21,9 @@ public class GameResponse {
     //private Long idBoard;
 
     public GameResponse(Game game) {
-        this.id = game.getId();
-        this.player1 = game.getPlayer1();
-        this.player2 = game.getPlayer2();
+        this.id = game.getGameID();
+        this.player1 = game.getPlayerOne();
+        this.player2 = game.getPlayerTwo();
         this.pointsPlayer1 = game.getPointsPlayer1();
         this.pointsPlayer2 = game.getPointsPlayer2();
         this.state = game.isState();

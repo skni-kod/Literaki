@@ -1,7 +1,6 @@
 package SKNI.KOD.Literaki.entity.user;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -12,20 +11,19 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(schema="user", name="profile")
-@SecondaryTable(name = "security.login")
+@Table(schema = "players", name="profile")
 public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
-    @JoinColumn(table="security.login", name="id", nullable = false)
-    private Long id;
+    @Column(unique = true, nullable = false, name = "playerId")
+    @JoinColumn(table="login", nullable = false)
+    private Long playerId;
 
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column()
+    @Column(nullable = true)
     private byte icon;
 
     @Column(nullable = false)
@@ -34,13 +32,13 @@ public class Profile {
     @Column(nullable = false)
     private Timestamp crationDate = Timestamp.valueOf(LocalDateTime.now());
 
-    public Profile(Long id, String username) {
-        this.id = id;
+    public Profile(Long playerId, String username) {
+        this.playerId = playerId;
         this.username = username;
     }
 
-    public Long getId() {
-        return id;
+    public Long getPlayerId() {
+        return playerId;
     }
 
     public Timestamp getCrationDate() {

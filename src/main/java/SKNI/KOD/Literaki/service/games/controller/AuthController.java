@@ -1,4 +1,4 @@
-package SKNI.KOD.Literaki.controller;
+package SKNI.KOD.Literaki.service.games.controller;
 
 import SKNI.KOD.Literaki.DTO.request.AuthRequest;
 import SKNI.KOD.Literaki.service.security.AuthService;

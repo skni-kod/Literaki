@@ -16,7 +16,7 @@ public class ProfileResponse {
     private Timestamp creationDate;
 
     public ProfileResponse(Profile profile) {
-        this.id = profile.getId();
+        this.id = profile.getPlayerId();
         this.username = profile.getUsername();
         this.icon = profile.getIcon();
         this.ranking = profile.getRanking();
