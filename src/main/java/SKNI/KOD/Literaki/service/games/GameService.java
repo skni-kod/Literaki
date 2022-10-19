@@ -34,16 +34,16 @@ public class GameService {
 
     //TODO: uncomment this after creating Board
 //    public GameResponse createGame(GameRequest gameRequest){
-//        Game game = new Game(gameRequest.player1, gameRequest.player2)
+//its bad ->        Game game = new Game(gameRequest.player1, gameRequest.player2)
 //                .setIdBoard(new Board(gameRequest.getId()));
 //
 //        return new GameResponse(game);
 //    }
 
-    public GameResponse updateGame(GameRequest gameRequest, Long id){
+    public GameResponse updateGame(GameRequest gameRequest){
         Game game = null;
-        if(gameRepository.existsById(id)) {
-            game = gameRepository.findById(id).get();
+        if(gameRepository.existsById(gameRequest.getId())) {
+            game = gameRepository.findById(gameRequest.getId()).get();
             game.setPointsPlayer1(gameRequest.getPointsPlayer1());
             game.setPointsPlayer2(gameRequest.getPointsPlayer2());
             game.setState(gameRequest.isState());

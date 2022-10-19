@@ -1,8 +1,10 @@
 package SKNI.KOD.Literaki.controller;
 
+import SKNI.KOD.Literaki.DTO.request.OldGameRequest;
 import SKNI.KOD.Literaki.DTO.response.OldGameResponse;
 import SKNI.KOD.Literaki.service.user.OldGameService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +24,12 @@ public class OldGameController {
     @GetMapping("/{id}")
     public OldGameResponse getOldGame(@PathVariable Long id){
         return oldGameService.getOldGame(id);
+    }
+
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<?> deleteOldGame(@PathVariable Long id){
+        oldGameService.deleteOldGame(id);
+        return ResponseEntity.ok().build();
     }
 
 

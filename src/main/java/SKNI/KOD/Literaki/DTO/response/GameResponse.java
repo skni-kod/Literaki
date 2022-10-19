@@ -13,8 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GameResponse {
     private Long id;
-    private Profile player1;
-    private Profile player2;
+    private Long player1;
+    private Long player2;
     private int pointsPlayer1;
     private int pointsPlayer2;
     private boolean state;
@@ -22,8 +22,8 @@ public class GameResponse {
 
     public GameResponse(Game game) {
         this.id = game.getGameID();
-        this.player1 = game.getPlayerOne();
-        this.player2 = game.getPlayerTwo();
+        this.player1 = game.getPlayerOne().getPlayerId();
+        this.player2 = game.getPlayerTwo().getPlayerId();
         this.pointsPlayer1 = game.getPointsPlayer1();
         this.pointsPlayer2 = game.getPointsPlayer2();
         this.state = game.isState();

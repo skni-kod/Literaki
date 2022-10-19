@@ -38,10 +38,10 @@ public class ProfileService {
         return new ProfileResponse(profile);
     }
 
-    public ProfileResponse updateProfile(ProfileRequest profileRequest, Long id){
+    public ProfileResponse updateProfile(ProfileRequest profileRequest){
         Profile profile = null;
-        if(profileRepository.existsById(id)) {
-            profile = profileRepository.findById(id).get();
+        if(profileRepository.existsById(profileRequest.getId())) {
+            profile = profileRepository.findById(profileRequest.getId()).get();
             profile.setIcon(profileRequest.getIcon());
         }
         return new ProfileResponse(profile);
