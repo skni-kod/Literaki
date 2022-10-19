@@ -1,3 +1,9 @@
+DROP SCHEMA IF EXISTS games CASCADE ;
+CREATE SCHEMA games;
+
+DROP SCHEMA IF EXISTS players CASCADE ;
+CREATE SCHEMA players;
+
 CREATE TABLE games.game
 (
     game_id              BIGINT  NOT NULL,
@@ -33,7 +39,7 @@ CREATE TABLE players.profile
 (
     player_id     BIGINT       NOT NULL,
     username      VARCHAR(255) NOT NULL,
-    icon          SMALLINT,
+    icon          SMALLINT     NULL ,
     ranking       INTEGER      NOT NULL,
     creation_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     CONSTRAINT pk_profile PRIMARY KEY (player_id)
