@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 @Getter
 @Setter
@@ -23,14 +24,14 @@ public class Profile {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = true)
-    private byte icon;
+    @Column()
+    private Byte icon=0;
 
     @Column(nullable = false)
     private int ranking = 1000;
 
     @Column(nullable = false)
-    private Timestamp crationDate = Timestamp.valueOf(LocalDateTime.now());
+    private Timestamp creationDate = Timestamp.valueOf(LocalDateTime.now());
 
     public Profile(Long playerId, String username) {
         this.playerId = playerId;
@@ -41,8 +42,8 @@ public class Profile {
         return playerId;
     }
 
-    public Timestamp getCrationDate() {
-        return crationDate;
+    public Timestamp getCreationDate() {
+        return creationDate;
     }
 
     public String getUsername() {

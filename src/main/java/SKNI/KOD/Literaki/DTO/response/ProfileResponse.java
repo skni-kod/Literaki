@@ -20,6 +20,6 @@ public class ProfileResponse {
         this.username = profile.getUsername();
         this.icon = profile.getIcon();
         this.ranking = profile.getRanking();
-        this.creationDate = profile.getCrationDate();
+        this.creationDate = profile.getCreationDate();
     }
 }

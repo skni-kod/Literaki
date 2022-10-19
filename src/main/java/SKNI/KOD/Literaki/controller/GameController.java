@@ -1,4 +1,4 @@
-package SKNI.KOD.Literaki.service.games.controller;
+package SKNI.KOD.Literaki.controller;
 
 import SKNI.KOD.Literaki.DTO.response.GameResponse;
 import SKNI.KOD.Literaki.service.games.GameService;
