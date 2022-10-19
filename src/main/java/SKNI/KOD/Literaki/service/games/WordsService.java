@@ -2,6 +2,7 @@ package SKNI.KOD.Literaki.service.games;
 
 import SKNI.KOD.Literaki.DTO.request.WordsRequest;
 import SKNI.KOD.Literaki.DTO.response.WordsResponse;
+import SKNI.KOD.Literaki.entity.games.Game;
 import SKNI.KOD.Literaki.entity.games.Words;
 import SKNI.KOD.Literaki.repository.WordsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,10 @@ public class WordsService {
     }
 
     public WordsResponse getWords(Long id){
-        Words words = wordsRepository.findById(id).get();
+        Words words = null;
+        if(wordsRepository.existsById(id)) {
+            words = wordsRepository.findById(id).get();
+        }
         return new WordsResponse(words);
     }
 

@@ -2,6 +2,7 @@ package SKNI.KOD.Literaki.service.user;
 
 import SKNI.KOD.Literaki.DTO.request.ProfileRequest;
 import SKNI.KOD.Literaki.DTO.response.ProfileResponse;
+import SKNI.KOD.Literaki.entity.games.Words;
 import SKNI.KOD.Literaki.entity.login.Login;
 import SKNI.KOD.Literaki.entity.user.Profile;
 import SKNI.KOD.Literaki.repository.ProfileRepository;
@@ -24,8 +25,12 @@ public class ProfileService {
     }
 
     public ProfileResponse getProfile(Long id){
-        Profile profile = profileRepository.findById(id).get();
+        Profile profile = null;
+        if(profileRepository.existsById(id)) {
+            profile = profileRepository.findById(id).get();
+        }
         return new ProfileResponse(profile);
+
     }
 
     public ProfileResponse createProfile(Login login){
@@ -42,7 +47,7 @@ public class ProfileService {
         return new ProfileResponse(profile);
     }
 
-    public void finishProfile(Long id){
+    public void deleteProfile(Long id){
         if(profileRepository.existsById(id)) {
             Profile profile = profileRepository.findById(id).get();
             profileRepository.delete(profile);

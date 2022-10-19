@@ -39,7 +39,6 @@ public class OldGameService {
         if(oldGameRepository.existsById(id)) {
             oldGame = oldGameRepository.findById(id).get();
             oldGameRepository.delete(oldGame);
-
         }
     }
 }

@@ -18,13 +18,17 @@ public class GameService {
     private GameRepository gameRepository;
 
     public List<GameResponse> getAllGames() {
+        List<GameResponse> game = null;
         return gameRepository.findAll().stream()
                 .map(GameResponse::new)
                 .collect(Collectors.toList());
     }
 
-    public GameResponse getGame(Long id){
-        Game game = gameRepository.findById(id).get();
+    public GameResponse getGame(Long id) {
+        Game game = null;
+        if (gameRepository.existsById(id)){
+            game = gameRepository.findById(id).get();
+        }
         return new GameResponse(game);
     }
 

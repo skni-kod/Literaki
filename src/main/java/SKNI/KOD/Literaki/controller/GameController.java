@@ -14,11 +14,14 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-    @GetMapping("/{id}")
-    public List<GameResponse> getGame(@PathVariable Long id) {
+    @GetMapping("")
+    public List<GameResponse> getGames() {
         return gameService.getAllGames();
     }
 
-
+    @GetMapping("/{id}")
+    public GameResponse getGame(@PathVariable Long id) {
+        return gameService.getGame(id);
+    }
 
 }
