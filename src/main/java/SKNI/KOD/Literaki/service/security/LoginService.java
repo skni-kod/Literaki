@@ -80,6 +80,7 @@ public class LoginService {
             if(login.getVerificationToken()!=null && login.getVerificationToken().getToken().equals(token) && login.getVerificationToken().getExpiryDate().isAfter(ZonedDateTime.now())) {
                 login.setVerified(true);
                 login.setVerificationToken(null);
+                verificationTokenService.removeVerificationToken(foundToken);
                 Login savedLogin = loginRepository.save(login);
                 LoginRole loginRole = LoginRole.builder()
                         .login(login)
