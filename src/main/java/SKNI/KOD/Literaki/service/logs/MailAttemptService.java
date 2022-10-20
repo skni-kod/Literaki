@@ -7,12 +7,10 @@ import SKNI.KOD.Literaki.repository.MailAttemptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 @Service
 public class MailAttemptService {
-    private static final ZoneId poland = ZoneId.of("Poland");
 
     @Autowired
     private MailAttemptRepository mailAttemptRepository;

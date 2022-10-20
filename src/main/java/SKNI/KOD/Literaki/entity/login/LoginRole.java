@@ -1,7 +1,6 @@
 package SKNI.KOD.Literaki.entity.login;
 
 import lombok.*;
-import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
 
@@ -11,8 +10,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(schema="security")
-public class Login2Role {
+@Table(schema="security",name = "login_roles")
+public class LoginRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
