@@ -17,7 +17,7 @@ public class MailAttemptService {
 
     public MailAttemptResponse createMailAttempt(MailAttemptRequest mailAttemptRequest){
         MailAttempt mailAttempt = MailAttempt.builder()
-                .body(mailAttemptRequest.getBody())
+                .title(mailAttemptRequest.getMailTitle())
                 .requestingUser(mailAttemptRequest.getRequestingUser())
                 .sentTo(mailAttemptRequest.getSentTo())
                 .attemptDate(ZonedDateTime.now())

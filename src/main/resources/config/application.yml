@@ -22,3 +22,5 @@ spring:
           lob:
             non_contextual_creation: true
 default-config:
+  mail:
+    project-mail: 'Literaki.SKNI@gmail.com'

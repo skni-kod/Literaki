@@ -29,7 +29,7 @@ public class MailAttempt {
     private String sentTo;
 
     @Column(nullable = false)
-    private String body;
+    private String title;
 
     @Column(nullable = false, name = "successful")
     private Boolean isSuccessful;

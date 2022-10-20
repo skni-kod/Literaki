@@ -26,4 +26,15 @@ public class VerificationTokenService {
                 .build();
         return verificationTokenRepository.save(verificationToken);
     }
+
+    public void removeVerificationToken(VerificationToken verificationToken){
+        verificationTokenRepository.delete(verificationToken);
+    }
+
+    public VerificationToken findToken(String token) {
+        if(verificationTokenRepository.existsByToken(token))
+            return verificationTokenRepository.findByToken(token);
+        else
+            return null;
+    }
 }

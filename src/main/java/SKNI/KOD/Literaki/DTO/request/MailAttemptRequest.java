@@ -12,17 +12,24 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class MailAttemptRequest {
     @NotNull
-    private String body;
+    private String mailTitle;
     @NotNull
     private Boolean successful;
-
-    public void setSuccessful(Boolean successful) {
-        this.successful = successful;
-    }
 
     @NotNull
     private String sentTo;
 
     @Nullable
     private String requestingUser;
+
+    public void setSuccessful(Boolean successful) {
+        this.successful = successful;
+    }
+
+    public MailAttemptRequest(MailRequest mailRequest,Boolean successful, String username){
+        mailTitle =mailRequest.getTitle();
+        this.successful=successful;
+        sentTo=mailRequest.getSendTo();
+        requestingUser=username;
+    }
 }

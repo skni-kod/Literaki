@@ -12,5 +12,11 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 public class YAMLConfiguration {
-
+    private final Mail mail = new Mail();
+    
+    @Getter
+    @Setter
+    public static class Mail{
+            private String projectMail;
+    }
 }
