@@ -15,7 +15,6 @@ public class MailController {
 
     @RequestMapping("/test")
     public ResponseEntity<?> sendTestMail(){
-        mailService.sendTestMail();
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(mailService.sendTestMail());
     }
 }

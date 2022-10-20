@@ -4,7 +4,7 @@ import SKNI.KOD.Literaki.entity.user.Profile;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 
 @Setter
 @Getter
@@ -13,7 +13,7 @@ public class ProfileResponse {
     private String username;
     private byte icon;
     private int ranking;
-    private Timestamp creationDate;
+    private ZonedDateTime creationDate;
 
     public ProfileResponse(Profile profile) {
         this.id = profile.getPlayerId();

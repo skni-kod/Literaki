@@ -1,7 +1,7 @@
 package SKNI.KOD.Literaki.service.message;
 
 import SKNI.KOD.Literaki.DTO.request.MailAttemptRequest;
-import SKNI.KOD.Literaki.entity.logs.MailAttempt;
+import SKNI.KOD.Literaki.DTO.response.MailAttemptResponse;
 import SKNI.KOD.Literaki.service.logs.MailAttemptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -20,7 +20,7 @@ public class MailService {
     private MailAttemptService mailAttemptService;
 
 
-    public void sendTestMail(){
+    public MailAttemptResponse sendTestMail(){
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setFrom("Literaki.SKNI@gmail.com");
         mail.setSubject("Test message");
@@ -29,13 +29,13 @@ public class MailService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        MailAttemptRequest mailAttemptRequest = new MailAttemptRequest("Test",true,currentPrincipalName);
+        MailAttemptRequest mailAttemptRequest = new MailAttemptRequest("Test",true,"Literaki.SKNI@gmail.com",currentPrincipalName);
         try {
             javaMailSender.send(mail);
         }catch (Exception e){
             mailAttemptRequest.setSuccessful(false);
             e.printStackTrace();
         }
-        mailAttemptService.createMailAttempt(mailAttemptRequest);
+        return mailAttemptService.createMailAttempt(mailAttemptRequest);
     }
 }

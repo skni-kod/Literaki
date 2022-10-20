@@ -20,6 +20,9 @@ public class MailAttemptRequest {
         this.successful = successful;
     }
 
+    @NotNull
+    private String sentTo;
+
     @Nullable
     private String requestingUser;
 }

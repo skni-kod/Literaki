@@ -1,12 +1,11 @@
 package SKNI.KOD.Literaki.entity.user;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
 
 @Getter
 @Setter
@@ -31,7 +30,7 @@ public class Profile {
     private int ranking = 1000;
 
     @Column(nullable = false)
-    private Timestamp creationDate = Timestamp.valueOf(LocalDateTime.now());
+    private ZonedDateTime creationDate = ZonedDateTime.now();
 
     public Profile(Long playerId, String username) {
         this.playerId = playerId;
@@ -42,7 +41,7 @@ public class Profile {
         return playerId;
     }
 
-    public Timestamp getCreationDate() {
+    public ZonedDateTime getCreationDate() {
         return creationDate;
     }
 

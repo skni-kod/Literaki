@@ -3,7 +3,7 @@ package SKNI.KOD.Literaki.entity.logs;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -20,10 +20,13 @@ public class MailAttempt {
     private Long id;
 
     @Column(nullable = false)
-    private Timestamp attemptDate;
+    private ZonedDateTime attemptDate;
 
     @Column(nullable = true)
     private String requestingUser;
+
+    @Column(nullable = false)
+    private String sentTo;
 
     @Column(nullable = false)
     private String body;
