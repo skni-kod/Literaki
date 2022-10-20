@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailService {
     @Autowired
+    //don't trust IDE, this works lol
     private JavaMailSender javaMailSender;
 
     @Autowired
@@ -24,7 +25,7 @@ public class MailService {
         mail.setFrom("Literaki.SKNI@gmail.com");
         mail.setSubject("Test message");
         mail.setText("Test");
-        mail.setTo("adamus8895@gmail.com");
+        mail.setTo("Literaki.SKNI@gmail.com");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
