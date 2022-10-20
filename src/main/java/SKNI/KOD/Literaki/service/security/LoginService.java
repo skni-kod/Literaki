@@ -14,8 +14,8 @@ import SKNI.KOD.Literaki.service.message.MailService;
 import SKNI.KOD.Literaki.service.user.ProfileService;
 import SKNI.KOD.Literaki.util.ERole;
 import SKNI.KOD.Literaki.util.HttpServletRequestResolver;
+import SKNI.KOD.Literaki.util.Regexes;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -23,6 +23,8 @@ import org.thymeleaf.context.Context;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.ZonedDateTime;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class LoginService {
@@ -50,16 +52,37 @@ public class LoginService {
     @Autowired
     private MailService mailService;
 
+    private boolean loginAndEmailAvailable(LoginRequest loginRequest){
+        try{
+            return loginRepository.findByUsernameOrEmail(loginRequest.getUsername(), loginRequest.getEmail()).isEmpty();
+        }catch(Exception e){
+            return false;
+        }
+    }
+    private boolean passwordMatchesRequirements(String password){
+        Pattern pattern = Pattern.compile(Regexes.EIGHT_LETTER_NUMBER);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+
+    private boolean emailMeetsRequirements(String email){
+        Pattern pattern = Pattern.compile(Regexes.EMAIL);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
     public LoginResponse createLogin(LoginRequest loginRequest,HttpServletRequest httpServletRequest){
-        Login newLogin = Login.builder()
-                .username(loginRequest.getUsername())
-                .email(loginRequest.getEmail())
-                .password(passwordEncoder.encode(loginRequest.getPassword()))
-                .verificationToken(verificationTokenService.createVerificationToken())
-                .build();
-        Login savedLogin = loginRepository.save(newLogin);
-        MailAttemptResponse mailAttemptResponse = sendVerificationEmail(savedLogin.getEmail(),savedLogin.getVerificationToken().getToken(),httpServletRequest);
-        return new LoginResponse(savedLogin);
+        if(loginAndEmailAvailable(loginRequest) && passwordMatchesRequirements(loginRequest.getPassword()) && emailMeetsRequirements(loginRequest.getEmail())) {
+            Login newLogin = Login.builder()
+                    .username(loginRequest.getUsername())
+                    .email(loginRequest.getEmail())
+                    .password(passwordEncoder.encode(loginRequest.getPassword()))
+                    .verificationToken(verificationTokenService.createVerificationToken())
+                    .build();
+            Login savedLogin = loginRepository.save(newLogin);
+            MailAttemptResponse mailAttemptResponse = sendVerificationEmail(savedLogin.getEmail(), savedLogin.getVerificationToken().getToken(), httpServletRequest);
+            return new LoginResponse(savedLogin);
+        }
+        return null;
     }
     private MailAttemptResponse sendVerificationEmail(String sendTo, String verificationToken, HttpServletRequest httpServletRequest){
         Context context = new Context();
