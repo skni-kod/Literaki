@@ -12,5 +12,6 @@
     <exclude-change idName="fk_logrol_on_role" tagName="addForeignKeyConstraint" />
     <exclude-change idName="security#login_roles#id" tagName="dropColumn" />
     <exclude-change idName="security#login_roles#login_id, role_id" tagName="addPrimaryKey" />
+    <exclude-change idName="logs#mail_attempts#title" tagName="modifyDataType" />
   </component>
 </project>

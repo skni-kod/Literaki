@@ -1,5 +1,6 @@
 package SKNI.KOD.Literaki.service.security;
 
+import SKNI.KOD.Literaki.DTO.request.LogRequest;
 import SKNI.KOD.Literaki.DTO.request.LoginRequest;
 import SKNI.KOD.Literaki.DTO.request.MailRequest;
 import SKNI.KOD.Literaki.DTO.response.LoginResponse;
@@ -10,6 +11,7 @@ import SKNI.KOD.Literaki.entity.login.VerificationToken;
 import SKNI.KOD.Literaki.repository.Login2RoleRepository;
 import SKNI.KOD.Literaki.repository.LoginRepository;
 import SKNI.KOD.Literaki.repository.RoleRepository;
+import SKNI.KOD.Literaki.service.logs.LogService;
 import SKNI.KOD.Literaki.service.message.MailService;
 import SKNI.KOD.Literaki.service.user.ProfileService;
 import SKNI.KOD.Literaki.util.ERole;
@@ -51,6 +53,8 @@ public class LoginService {
     private TemplateEngine templateEngine;
     @Autowired
     private MailService mailService;
+    @Autowired
+    private LogService logService;
 
     private boolean loginAndEmailAvailable(LoginRequest loginRequest){
         try{
@@ -71,6 +75,7 @@ public class LoginService {
         return matcher.matches();
     }
     public LoginResponse createLogin(LoginRequest loginRequest,HttpServletRequest httpServletRequest){
+        logService.createInfoLog(new LogRequest(httpServletRequest.getRemoteAddr(),"Attempting to register a new user"));
         if(loginAndEmailAvailable(loginRequest) && passwordMatchesRequirements(loginRequest.getPassword()) && emailMeetsRequirements(loginRequest.getEmail())) {
             Login newLogin = Login.builder()
                     .username(loginRequest.getUsername())
