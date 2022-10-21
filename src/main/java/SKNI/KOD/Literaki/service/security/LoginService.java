@@ -1,5 +1,6 @@
 package SKNI.KOD.Literaki.service.security;
 
+import SKNI.KOD.Literaki.DTO.request.ChangePasswordRequest;
 import SKNI.KOD.Literaki.DTO.request.LogRequest;
 import SKNI.KOD.Literaki.DTO.request.LoginRequest;
 import SKNI.KOD.Literaki.DTO.request.MailRequest;
@@ -25,6 +26,7 @@ import org.thymeleaf.context.Context;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.ZonedDateTime;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -121,5 +123,27 @@ public class LoginService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public LoginResponse changePassword(ChangePasswordRequest changePasswordRequest, HttpServletRequest httpServletRequest) {
+        Login savedLogin=null;
+        logService.createInfoLog(new LogRequest(httpServletRequest.getRemoteAddr(), "Attempting to change password"));
+        if(loginRepository.existsByUsername(changePasswordRequest.getUsername())){
+            Login login = loginRepository.findByUsernameIgnoreCase(changePasswordRequest.getUsername()).get();
+            if(passwordMatchesRequirements(changePasswordRequest.getNewPassword())) {
+                if (passwordEncoder.matches(changePasswordRequest.getOldPassword(),login.getPassword())) {
+                    login.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+                    savedLogin = loginRepository.save(login);
+                    logService.createTraceLog(new LogRequest(httpServletRequest.getRemoteAddr(),"successfully changed password"));
+                } else {
+                    logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "change password: Old password does not match"));
+                }
+            }else {
+                logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "change password: New password does not meet requirements"));
+            }
+        }else{
+            logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "change password: User not found"));
+        }
+        return new LoginResponse(savedLogin);
     }
 }

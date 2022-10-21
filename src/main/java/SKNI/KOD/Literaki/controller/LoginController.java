@@ -1,15 +1,13 @@
 package SKNI.KOD.Literaki.controller;
 
+import SKNI.KOD.Literaki.DTO.request.ChangePasswordRequest;
 import SKNI.KOD.Literaki.DTO.request.LoginRequest;
 import SKNI.KOD.Literaki.DTO.response.LoginResponse;
 import SKNI.KOD.Literaki.service.security.LoginService;
 import SKNI.KOD.Literaki.util.HttpServletRequestResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,13 +29,18 @@ public class LoginController {
 //        System.out.printf("Build try: %20s%n", HttpServletRequestResolver.getServerPathFromRequest(httpServletRequest));
 //    }
 
-    @RequestMapping("/create")
+    @PostMapping("/create")
     public ResponseEntity<LoginResponse> createLogin(LoginRequest loginRequest, HttpServletRequest httpServletRequest){
         return ResponseEntity.ok(loginService.createLogin(loginRequest,httpServletRequest));
     }
 
-    @RequestMapping("/verify/{token}")
-    public ResponseEntity<LoginResponse> verifyLogin(@PathVariable("token") String token){
+    @PostMapping("/verify/{token}")
+    public ResponseEntity<LoginResponse> verifyLogin(@PathVariable("token") String token, HttpServletRequest httpServletRequest){
         return ResponseEntity.ok(loginService.verifyLogin(token));
+    }
+
+    @PostMapping("/changePassword")
+    public ResponseEntity<LoginResponse> changePassword(ChangePasswordRequest changePasswordRequest,HttpServletRequest httpServletRequest){
+        return ResponseEntity.ok(loginService.changePassword(changePasswordRequest,httpServletRequest));
     }
 }

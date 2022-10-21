@@ -18,6 +18,8 @@ public class LoginResponse {
     private String verificationToken;
 
     public LoginResponse(Login login) {
+        if(login==null)
+            return;
         id = login.getId();
         username = login.getUsername();
         email = login.getEmail();
