@@ -26,7 +26,6 @@ import org.thymeleaf.context.Context;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.ZonedDateTime;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +37,11 @@ public class LoginService {
     private static final String VERIFY_TITLE = "Dziękujemy za utworzenie konta w Projekcie Literaki\n" +
             "Aby aktywować konto, kliknij poniższy przycisk.";
     private static final String VERIFY_BUTTON = "Aktywacja Konta";
+    private static final String PASS_RESET_PATH = "/login/resetPassword/";
+    private static final String PASS_RESET_MAIL_TITLE = "Odzyskiwanie hasła - Projekt Literaki";
+    private static final String PASS_RESET_HEADER = "Odzyskiwanie hasła";
+    private static final String PASS_RESET_TITLE = "Poniżej znajdziesz link, pozwalający na ustawienie nowego hasła.";
+    private static final String PASS_RESET_BUTTON = "Resetuj hasło";
 
     @Autowired
     private LoginRepository loginRepository;
@@ -101,13 +105,23 @@ public class LoginService {
         return mailService.sendEmail(new MailRequest(sendTo,VERIFY_MAIL_TITLE,body));
     }
 
+    private MailAttemptResponse sendPasswordResetEmail(String sendTo, String verificationToken, HttpServletRequest httpServletRequest){
+        Context context = new Context();
+        context.setVariable("header",PASS_RESET_HEADER);
+        context.setVariable("title", PASS_RESET_TITLE);
+        context.setVariable("button", PASS_RESET_BUTTON);
+        context.setVariable("link", HttpServletRequestResolver.getServerPathFromRequest(httpServletRequest)+PASS_RESET_PATH+verificationToken);
+        String body = templateEngine.process("mailTemplate",context);
+        return mailService.sendEmail(new MailRequest(sendTo,PASS_RESET_MAIL_TITLE,body));
+    }
+
     public LoginResponse verifyLogin(String token){
         try {
             VerificationToken foundToken = verificationTokenService.findToken(token);
             if(foundToken == null)
                 return null;
             Login login = loginRepository.findByVerificationToken(foundToken).get();
-            if(login.getVerificationToken()!=null && login.getVerificationToken().getToken().equals(token) && login.getVerificationToken().getExpiryDate().isAfter(ZonedDateTime.now())) {
+            if(!login.getVerified() && login.getVerificationToken()!=null && login.getVerificationToken().getToken().equals(token) && login.getVerificationToken().getExpiryDate().isAfter(ZonedDateTime.now())) {
                 login.setVerified(true);
                 login.setVerificationToken(null);
                 verificationTokenService.removeVerificationToken(foundToken);
@@ -145,5 +159,40 @@ public class LoginService {
             logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "change password: User not found"));
         }
         return new LoginResponse(savedLogin);
+    }
+
+    public LoginResponse forgotPassword(String email, HttpServletRequest httpServletRequest) {
+        logService.createInfoLog(new LogRequest(httpServletRequest.getRemoteAddr(), "Attempt to reset password of: "+email));
+        Login login = null;
+        if(loginRepository.existsByEmail(email)){
+            login = loginRepository.findByEmail(email).get();
+            login.setVerificationToken(verificationTokenService.createVerificationToken());
+            MailAttemptResponse mailAttemptResponse = sendPasswordResetEmail(login.getEmail(),login.getVerificationToken().getToken(),httpServletRequest);
+        }
+        else{
+            logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "change password: User not found"));
+        }
+        return new LoginResponse(login);
+    }
+
+    public LoginResponse resetPassword(String token,String password, HttpServletRequest httpServletRequest){
+        try {
+            VerificationToken foundToken = verificationTokenService.findToken(token);
+            if(foundToken == null)
+                return null;
+            Login login = loginRepository.findByVerificationToken(foundToken).get();
+            if(passwordMatchesRequirements(password) && login.getVerified() && login.getVerificationToken()!=null && login.getVerificationToken().getToken().equals(token) && login.getVerificationToken().getExpiryDate().isAfter(ZonedDateTime.now())) {
+                login.setPassword(passwordEncoder.encode(password));
+                Login savedLogin = loginRepository.save(login);
+                logService.createTraceLog(new LogRequest(httpServletRequest.getRemoteAddr(), "Successfully reseted password"));
+                return new LoginResponse(savedLogin);
+            }
+            else{
+                logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "Failed during password reset"));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

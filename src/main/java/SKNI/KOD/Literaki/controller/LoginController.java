@@ -4,7 +4,6 @@ import SKNI.KOD.Literaki.DTO.request.ChangePasswordRequest;
 import SKNI.KOD.Literaki.DTO.request.LoginRequest;
 import SKNI.KOD.Literaki.DTO.response.LoginResponse;
 import SKNI.KOD.Literaki.service.security.LoginService;
-import SKNI.KOD.Literaki.util.HttpServletRequestResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController {
     @Autowired
     LoginService loginService;
-
-//    @GetMapping
-//    public void testMappings(HttpServletRequest httpServletRequest){
-//        System.out.printf("Servlet path: %20s%n",httpServletRequest.getServletPath());
-//        System.out.printf("Http servlet mapping: %20s%n",httpServletRequest.getHttpServletMapping().getPattern());
-//        System.out.printf("Context path: %20s%n",httpServletRequest.getContextPath());
-//        System.out.printf("Path translated: %20s%n",httpServletRequest.getPathTranslated());
-//        System.out.printf("Path info: %20s%n",httpServletRequest.getPathInfo());
-//        System.out.printf("Request uri: %20s%n",httpServletRequest.getRequestURI());
-//        System.out.printf("Request url: %20s%n",httpServletRequest.getRequestURL());
-//        System.out.printf("Build try: %20s%n", HttpServletRequestResolver.getServerPathFromRequest(httpServletRequest));
-//    }
 
     @PostMapping("/create")
     public ResponseEntity<LoginResponse> createLogin(LoginRequest loginRequest, HttpServletRequest httpServletRequest){
@@ -42,5 +29,14 @@ public class LoginController {
     @PostMapping("/changePassword")
     public ResponseEntity<LoginResponse> changePassword(ChangePasswordRequest changePasswordRequest,HttpServletRequest httpServletRequest){
         return ResponseEntity.ok(loginService.changePassword(changePasswordRequest,httpServletRequest));
+    }
+
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<LoginResponse> forgotPassword(String email,HttpServletRequest httpServletRequest){
+        return ResponseEntity.ok(loginService.forgotPassword(email,httpServletRequest));
+    }
+    @PostMapping("/resetPassword/{token}")
+    public ResponseEntity<LoginResponse> resetPassword(@PathVariable("token") String token,String password,HttpServletRequest httpServletRequest){
+        return ResponseEntity.ok(loginService.resetPassword(token,password,httpServletRequest));
     }
 }
