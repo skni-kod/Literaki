@@ -1,33 +1,29 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react'
+import Header from './Header'
+import {BrowserRouter, Route} from "react-router-dom";
+import Register from "./Register";
+import Sth from "./sth";
+import Login from "./Login";
 
-class App extends Component {
-    state = {
-        games: []
-    };
-
-    async componentDidMount() {
-        const response = await fetch('/games');
-        const body = await response.json();
-        this.setState({games: body});
-    }
-
+class App extends  Component{
     render() {
-        const {games} = this.state;
         return (
-            <div className="App">
-                <header className="App-header">
-                    <div className="App-intro">
-                        <h2>HOLA MUNDO</h2>
-                        {games.map(Game =>
-                            <div key={Game.id}>
-                                gameID: {Game.id},  (pointsPlayer1: {Game.pointsPlayer1}, pointsPlayer2: {Game.pointsPlayer2})
-                            </div>
-                        )}
-                    </div>
-                </header>
-            </div>
+                <div className="App">
+                    <BrowserRouter>
+                        <Header />
+                        <Route path="/index">
+                            <Sth />
+                        </Route>
+                        <Route path="/login">
+                            <Login />
+                        </Route>
+                        <Route path="/register">
+                            <Register/>
+                        </Route>
+                    </BrowserRouter>
+                </div>
         );
     }
 }
