@@ -1,6 +1,7 @@
 DROP SCHEMA IF EXISTS logs CASCADE;
 CREATE SCHEMA logs;
 
+DROP TABLE IF EXISTS logs.mail_attempts CASCADE;
 CREATE TABLE logs.mail_attempts
 (
     id              BIGSERIAL  NOT NULL,
