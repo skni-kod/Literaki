@@ -84,7 +84,4 @@ public class Game {
         return state;
     }
 
-//    public Long getIdBoard() {
-//        return idBoard;
-//    }
 }
