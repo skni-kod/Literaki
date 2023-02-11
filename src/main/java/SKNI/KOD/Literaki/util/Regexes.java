@@ -2,11 +2,11 @@ package SKNI.KOD.Literaki.util;
 
 public class Regexes {
     // Minimum: eight characters, one letter, one number
-    public static final String EIGHT_LETTER_NUMBER = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+    public static final String EIGHT_LETTER_NUMBER = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\w\\W]{8,}$";
     // Minimum: eight characters, one letter, one number, one special character
     public static final String EIGHT_LETTER_NUMBER_SPECIAL = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
     // Minimum: eight characters, one uppercase letter, one lowercase letter, one number
-    public static final String EIGHT_ULETTER_LLETTER_NUMBER = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
+    public static final String EIGHT_ULETTER_LLETTER_NUMBER = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d\\w\\W]{8,}$";
     // Minimum: eight characters, one uppercase letter, one lowercase letter, one number, one special character
     public static final String EIGHT_ULETTER_LLETTER_NUMBER_SPECIAL = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
     // Regex for email validation
