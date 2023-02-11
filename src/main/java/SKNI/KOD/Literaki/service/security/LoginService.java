@@ -62,27 +62,34 @@ public class LoginService {
     @Autowired
     private LogService logService;
 
-    private boolean loginAndEmailAvailable(LoginRequest loginRequest){
-        try{
+    private boolean loginAndEmailAvailable(HttpServletRequest httpServletRequest, LoginRequest loginRequest) {
+        try {
             return loginRepository.findByUsernameOrEmail(loginRequest.getUsername(), loginRequest.getEmail()).isEmpty();
-        }catch(Exception e){
+        } catch (Exception e) {
+            logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "User already registered"));
             return false;
         }
     }
-    private boolean passwordMatchesRequirements(String password){
+
+    private boolean passwordMatchesRequirements(HttpServletRequest httpServletRequest, String password) {
         Pattern pattern = Pattern.compile(Regexes.EIGHT_LETTER_NUMBER);
         Matcher matcher = pattern.matcher(password);
+        if(!matcher.matches())
+            logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "Password doesn't match requirements"));
         return matcher.matches();
     }
 
-    private boolean emailMeetsRequirements(String email){
+    private boolean emailMeetsRequirements(HttpServletRequest httpServletRequest, String email) {
         Pattern pattern = Pattern.compile(Regexes.EMAIL);
         Matcher matcher = pattern.matcher(email);
+        if(!matcher.matches())
+            logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "Email doesn't meet requirements"));
         return matcher.matches();
     }
-    public LoginResponse createLogin(LoginRequest loginRequest,HttpServletRequest httpServletRequest){
-        logService.createInfoLog(new LogRequest(httpServletRequest.getRemoteAddr(),"Attempting to register a new user"));
-        if(loginAndEmailAvailable(loginRequest) && passwordMatchesRequirements(loginRequest.getPassword()) && emailMeetsRequirements(loginRequest.getEmail())) {
+
+    public LoginResponse createLogin(LoginRequest loginRequest, HttpServletRequest httpServletRequest) {
+        logService.createInfoLog(new LogRequest(httpServletRequest.getRemoteAddr(), "Attempting to register a new user"));
+        if (loginAndEmailAvailable(httpServletRequest, loginRequest) && passwordMatchesRequirements(httpServletRequest, loginRequest.getPassword()) && emailMeetsRequirements(httpServletRequest, loginRequest.getEmail())) {
             Login newLogin = Login.builder()
                     .username(loginRequest.getUsername())
                     .email(loginRequest.getEmail())
@@ -95,33 +102,34 @@ public class LoginService {
         }
         return null;
     }
-    private MailAttemptResponse sendVerificationEmail(String sendTo, String verificationToken, HttpServletRequest httpServletRequest){
+
+    private MailAttemptResponse sendVerificationEmail(String sendTo, String verificationToken, HttpServletRequest httpServletRequest) {
         Context context = new Context();
-        context.setVariable("header",VERIFY_HEADER);
+        context.setVariable("header", VERIFY_HEADER);
         context.setVariable("title", VERIFY_TITLE);
-        context.setVariable("button",VERIFY_BUTTON );
-        context.setVariable("link", HttpServletRequestResolver.getServerPathFromRequest(httpServletRequest)+VERIFY_PATH+verificationToken);
-        String body = templateEngine.process("mailTemplate",context);
-        return mailService.sendEmail(new MailRequest(sendTo,VERIFY_MAIL_TITLE,body));
+        context.setVariable("button", VERIFY_BUTTON);
+        context.setVariable("link", HttpServletRequestResolver.getServerPathFromRequest(httpServletRequest) + VERIFY_PATH + verificationToken);
+        String body = templateEngine.process("mailTemplate", context);
+        return mailService.sendEmail(new MailRequest(sendTo, VERIFY_MAIL_TITLE, body));
     }
 
-    private MailAttemptResponse sendPasswordResetEmail(String sendTo, String verificationToken, HttpServletRequest httpServletRequest){
+    private MailAttemptResponse sendPasswordResetEmail(String sendTo, String verificationToken, HttpServletRequest httpServletRequest) {
         Context context = new Context();
-        context.setVariable("header",PASS_RESET_HEADER);
+        context.setVariable("header", PASS_RESET_HEADER);
         context.setVariable("title", PASS_RESET_TITLE);
         context.setVariable("button", PASS_RESET_BUTTON);
-        context.setVariable("link", HttpServletRequestResolver.getServerPathFromRequest(httpServletRequest)+PASS_RESET_PATH+verificationToken);
-        String body = templateEngine.process("mailTemplate",context);
-        return mailService.sendEmail(new MailRequest(sendTo,PASS_RESET_MAIL_TITLE,body));
+        context.setVariable("link", HttpServletRequestResolver.getServerPathFromRequest(httpServletRequest) + PASS_RESET_PATH + verificationToken);
+        String body = templateEngine.process("mailTemplate", context);
+        return mailService.sendEmail(new MailRequest(sendTo, PASS_RESET_MAIL_TITLE, body));
     }
 
-    public LoginResponse verifyLogin(String token){
+    public LoginResponse verifyLogin(String token) {
         try {
             VerificationToken foundToken = verificationTokenService.findToken(token);
-            if(foundToken == null)
+            if (foundToken == null)
                 return null;
             Login login = loginRepository.findByVerificationToken(foundToken).get();
-            if(!login.getVerified() && login.getVerificationToken()!=null && login.getVerificationToken().getToken().equals(token) && login.getVerificationToken().getExpiryDate().isAfter(ZonedDateTime.now())) {
+            if (!login.getVerified() && login.getVerificationToken() != null && login.getVerificationToken().getToken().equals(token) && login.getVerificationToken().getExpiryDate().isAfter(ZonedDateTime.now())) {
                 login.setVerified(true);
                 login.setVerificationToken(null);
                 verificationTokenService.removeVerificationToken(foundToken);
@@ -133,64 +141,62 @@ public class LoginService {
                 profileService.createProfile(savedLogin);
                 return new LoginResponse(savedLogin);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
     public LoginResponse changePassword(ChangePasswordRequest changePasswordRequest, HttpServletRequest httpServletRequest) {
-        Login savedLogin=null;
+        Login savedLogin = null;
         logService.createInfoLog(new LogRequest(httpServletRequest.getRemoteAddr(), "Attempting to change password"));
-        if(loginRepository.existsByUsername(changePasswordRequest.getUsername())){
+        if (loginRepository.existsByUsername(changePasswordRequest.getUsername())) {
             Login login = loginRepository.findByUsernameIgnoreCase(changePasswordRequest.getUsername()).get();
-            if(passwordMatchesRequirements(changePasswordRequest.getNewPassword())) {
-                if (passwordEncoder.matches(changePasswordRequest.getOldPassword(),login.getPassword())) {
+            if (passwordMatchesRequirements(httpServletRequest,changePasswordRequest.getNewPassword())) {
+                if (passwordEncoder.matches(changePasswordRequest.getOldPassword(), login.getPassword())) {
                     login.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
                     savedLogin = loginRepository.save(login);
-                    logService.createTraceLog(new LogRequest(httpServletRequest.getRemoteAddr(),"successfully changed password"));
+                    logService.createTraceLog(new LogRequest(httpServletRequest.getRemoteAddr(), "successfully changed password"));
                 } else {
                     logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "change password: Old password does not match"));
                 }
-            }else {
+            } else {
                 logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "change password: New password does not meet requirements"));
             }
-        }else{
+        } else {
             logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "change password: User not found"));
         }
         return new LoginResponse(savedLogin);
     }
 
     public LoginResponse forgotPassword(String email, HttpServletRequest httpServletRequest) {
-        logService.createInfoLog(new LogRequest(httpServletRequest.getRemoteAddr(), "Attempt to reset password of: "+email));
+        logService.createInfoLog(new LogRequest(httpServletRequest.getRemoteAddr(), "Attempt to reset password of: " + email));
         Login login = null;
-        if(loginRepository.existsByEmail(email)){
+        if (loginRepository.existsByEmail(email)) {
             login = loginRepository.findByEmail(email).get();
             login.setVerificationToken(verificationTokenService.createVerificationToken());
-            MailAttemptResponse mailAttemptResponse = sendPasswordResetEmail(login.getEmail(),login.getVerificationToken().getToken(),httpServletRequest);
-        }
-        else{
+            MailAttemptResponse mailAttemptResponse = sendPasswordResetEmail(login.getEmail(), login.getVerificationToken().getToken(), httpServletRequest);
+        } else {
             logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "change password: User not found"));
         }
         return new LoginResponse(login);
     }
 
-    public LoginResponse resetPassword(String token,String password, HttpServletRequest httpServletRequest){
+    public LoginResponse resetPassword(String token, String password, HttpServletRequest httpServletRequest) {
         try {
             VerificationToken foundToken = verificationTokenService.findToken(token);
-            if(foundToken == null)
+            if (foundToken == null)
                 return null;
             Login login = loginRepository.findByVerificationToken(foundToken).get();
-            if(passwordMatchesRequirements(password) && login.getVerified() && login.getVerificationToken()!=null && login.getVerificationToken().getToken().equals(token) && login.getVerificationToken().getExpiryDate().isAfter(ZonedDateTime.now())) {
+            if (passwordMatchesRequirements(httpServletRequest,password) && login.getVerified() && login.getVerificationToken() != null && login.getVerificationToken().getToken().equals(token) && login.getVerificationToken().getExpiryDate().isAfter(ZonedDateTime.now())) {
                 login.setPassword(passwordEncoder.encode(password));
                 Login savedLogin = loginRepository.save(login);
                 logService.createTraceLog(new LogRequest(httpServletRequest.getRemoteAddr(), "Successfully reseted password"));
                 return new LoginResponse(savedLogin);
-            }
-            else{
+            } else {
                 logService.createErrorLog(new LogRequest(httpServletRequest.getRemoteAddr(), "Failed during password reset"));
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

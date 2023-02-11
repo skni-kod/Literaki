@@ -21,7 +21,7 @@ public class LoginController {
         return ResponseEntity.ok(loginService.createLogin(loginRequest,httpServletRequest));
     }
 
-    @PostMapping("/verify/{token}")
+    @GetMapping("/verify/{token}")
     public ResponseEntity<LoginResponse> verifyLogin(@PathVariable("token") String token, HttpServletRequest httpServletRequest){
         return ResponseEntity.ok(loginService.verifyLogin(token));
     }

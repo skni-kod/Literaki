@@ -1,6 +1,6 @@
 spring:
   mail:
-    password: iktjursvvemfgwbu
+    password: otvklwvaveqcvedb
     username: Literaki.SKNI@gmail.com
     host: smtp.gmail.com
     port: 587
