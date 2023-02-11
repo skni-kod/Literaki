@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -32,7 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthEntryPoint authEntryPoint;
 
     @Bean
-    public AuthFilter authFilter() {return new AuthFilter();}
+    public AuthFilter authFilter() {
+        return new AuthFilter();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -61,9 +64,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessUrl("/").and()
                 .exceptionHandling().accessDeniedPage("/index")
                 .and().httpBasic().authenticationEntryPoint(authEntryPoint);
-
+        http.headers()
+                .xssProtection().disable();
+        http.headers()
+                .contentSecurityPolicy("default-src 'self'; script-src 'self'; https://tu_kiedys_beda_literaki.com; style-src 'self'; frame-ancestor 'none'").and()
+                .contentSecurityPolicy("default-src 'self'; script-src 'self'; https://tu_kiedys_beda_literaki.com; style-src 'self'; frame-ancestor 'none' ; report-uri /csp-report-endpoint/").reportOnly();
         http.addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class);
     }
+
     @Bean
     public FilterRegistrationBean corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -78,3 +86,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 }
+
