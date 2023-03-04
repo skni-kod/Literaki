@@ -3,6 +3,8 @@ package SKNI.KOD.Literaki.entity.user;
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 
+import com.sun.istack.Nullable;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,7 +26,8 @@ public class Profile {
     private String username;
 
     @Column()
-    private Byte icon=0;
+    @Nullable
+    private Byte icon=null;
 
     @Column(nullable = false)
     private int ranking = 1000;

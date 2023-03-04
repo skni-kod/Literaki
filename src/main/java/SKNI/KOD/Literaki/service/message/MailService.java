@@ -1,8 +1,8 @@
 package SKNI.KOD.Literaki.service.message;
 
-import SKNI.KOD.Literaki.DTO.request.MailAttemptRequest;
-import SKNI.KOD.Literaki.DTO.request.MailRequest;
-import SKNI.KOD.Literaki.DTO.response.MailAttemptResponse;
+import SKNI.KOD.Literaki.DTO.request.login.MailAttemptRequest;
+import SKNI.KOD.Literaki.DTO.request.login.MailRequest;
+import SKNI.KOD.Literaki.DTO.response.auth.MailAttemptResponse;
 import SKNI.KOD.Literaki.config.YAMLConfiguration;
 import SKNI.KOD.Literaki.service.logs.MailAttemptService;
 import org.springframework.beans.factory.annotation.Autowired;

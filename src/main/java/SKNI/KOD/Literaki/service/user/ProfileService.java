@@ -1,11 +1,10 @@
 package SKNI.KOD.Literaki.service.user;
 
-import SKNI.KOD.Literaki.DTO.request.ProfileRequest;
-import SKNI.KOD.Literaki.DTO.response.ProfileResponse;
-import SKNI.KOD.Literaki.entity.games.Words;
+import SKNI.KOD.Literaki.DTO.request.user.ProfileRequest;
+import SKNI.KOD.Literaki.DTO.response.user.ProfileResponse;
 import SKNI.KOD.Literaki.entity.login.Login;
 import SKNI.KOD.Literaki.entity.user.Profile;
-import SKNI.KOD.Literaki.repository.ProfileRepository;
+import SKNI.KOD.Literaki.repository.user.ProfileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 

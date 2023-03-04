@@ -1,17 +1,17 @@
 package SKNI.KOD.Literaki.service.security;
 
-import SKNI.KOD.Literaki.DTO.request.ChangePasswordRequest;
-import SKNI.KOD.Literaki.DTO.request.LogRequest;
-import SKNI.KOD.Literaki.DTO.request.LoginRequest;
-import SKNI.KOD.Literaki.DTO.request.MailRequest;
-import SKNI.KOD.Literaki.DTO.response.LoginResponse;
-import SKNI.KOD.Literaki.DTO.response.MailAttemptResponse;
+import SKNI.KOD.Literaki.DTO.request.login.ChangePasswordRequest;
+import SKNI.KOD.Literaki.DTO.request.login.LogRequest;
+import SKNI.KOD.Literaki.DTO.request.login.LoginRequest;
+import SKNI.KOD.Literaki.DTO.request.login.MailRequest;
+import SKNI.KOD.Literaki.DTO.response.auth.LoginResponse;
+import SKNI.KOD.Literaki.DTO.response.auth.MailAttemptResponse;
 import SKNI.KOD.Literaki.entity.login.Login;
 import SKNI.KOD.Literaki.entity.login.LoginRole;
 import SKNI.KOD.Literaki.entity.login.VerificationToken;
-import SKNI.KOD.Literaki.repository.Login2RoleRepository;
-import SKNI.KOD.Literaki.repository.LoginRepository;
-import SKNI.KOD.Literaki.repository.RoleRepository;
+import SKNI.KOD.Literaki.repository.login.Login2RoleRepository;
+import SKNI.KOD.Literaki.repository.login.LoginRepository;
+import SKNI.KOD.Literaki.repository.login.RoleRepository;
 import SKNI.KOD.Literaki.service.logs.LogService;
 import SKNI.KOD.Literaki.service.message.MailService;
 import SKNI.KOD.Literaki.service.user.ProfileService;

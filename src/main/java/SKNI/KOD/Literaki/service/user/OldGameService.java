@@ -1,9 +1,9 @@
 package SKNI.KOD.Literaki.service.user;
 
-import SKNI.KOD.Literaki.DTO.response.OldGameResponse;
-import SKNI.KOD.Literaki.entity.games.Game;
+import SKNI.KOD.Literaki.DTO.response.user.OldGameResponse;
+import SKNI.KOD.Literaki.entity.game.Game;
 import SKNI.KOD.Literaki.entity.user.OldGame;
-import SKNI.KOD.Literaki.repository.OldGameRepository;
+import SKNI.KOD.Literaki.repository.user.OldGameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

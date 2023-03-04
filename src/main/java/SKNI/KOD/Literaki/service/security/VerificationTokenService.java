@@ -1,7 +1,7 @@
 package SKNI.KOD.Literaki.service.security;
 
 import SKNI.KOD.Literaki.entity.login.VerificationToken;
-import SKNI.KOD.Literaki.repository.VerificationTokenRepository;
+import SKNI.KOD.Literaki.repository.login.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

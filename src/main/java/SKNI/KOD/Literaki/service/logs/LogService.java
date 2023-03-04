@@ -1,9 +1,9 @@
 package SKNI.KOD.Literaki.service.logs;
 
-import SKNI.KOD.Literaki.DTO.request.LogRequest;
-import SKNI.KOD.Literaki.DTO.response.LogResponse;
+import SKNI.KOD.Literaki.DTO.request.login.LogRequest;
+import SKNI.KOD.Literaki.DTO.response.auth.LogResponse;
 import SKNI.KOD.Literaki.entity.logs.GenericLog;
-import SKNI.KOD.Literaki.repository.LogRepository;
+import SKNI.KOD.Literaki.repository.login.LogRepository;
 import SKNI.KOD.Literaki.util.ELogType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

@@ -2,7 +2,7 @@ package SKNI.KOD.Literaki.service.security;
 
 import SKNI.KOD.Literaki.config.security.UserDetailsImpl;
 import SKNI.KOD.Literaki.entity.login.Login;
-import SKNI.KOD.Literaki.repository.LoginRepository;
+import SKNI.KOD.Literaki.repository.login.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ExpressionException;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,11 +1,11 @@
 package SKNI.KOD.Literaki.service.security;
 
-import SKNI.KOD.Literaki.DTO.request.AuthRequest;
-import SKNI.KOD.Literaki.DTO.response.AuthResponse;
+import SKNI.KOD.Literaki.DTO.request.login.AuthRequest;
+import SKNI.KOD.Literaki.DTO.response.auth.AuthResponse;
 import SKNI.KOD.Literaki.config.security.JWTTokenProvider;
 import SKNI.KOD.Literaki.config.security.UserDetailsImpl;
-import SKNI.KOD.Literaki.repository.LoginRepository;
-import SKNI.KOD.Literaki.repository.RoleRepository;
+import SKNI.KOD.Literaki.repository.login.LoginRepository;
+import SKNI.KOD.Literaki.repository.login.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
