@@ -17,7 +17,7 @@ public class GameResponse {
     private int pointsPlayer1;
     private int pointsPlayer2;
     private boolean state;
-    //private Long idBoard;
+    private Long idBoard;
 
     public GameResponse(Game game) {
         this.id = game.getGameID();

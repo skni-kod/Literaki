@@ -18,7 +18,6 @@ public class GameService {
     private GameRepository gameRepository;
 
     public List<GameResponse> getAllGames() {
-        List<GameResponse> game = null;
         return gameRepository.findAll().stream()
                 .map(GameResponse::new)
                 .collect(Collectors.toList());

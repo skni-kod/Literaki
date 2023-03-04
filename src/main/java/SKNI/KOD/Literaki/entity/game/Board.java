@@ -1,8 +1,6 @@
 package SKNI.KOD.Literaki.entity.game;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,7 +8,9 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(schema = "games", name="board")
 public class Board {
     @Id
@@ -29,11 +29,11 @@ public class Board {
     @JoinColumn(name = "player_one_word_bag_word_bag_id")
     private WordBag playerOneWordBag;
     @Column(nullable = false)
-    private Double playerOneScore;
+    private Double playerOneScore = 0.0;
 
     @OneToOne
     @JoinColumn(name = "player_two_word_bag_word_bag_id")
     private WordBag playerTwoWordBag;
     @Column(nullable = false)
-    private Double playerTwoScore;
+    private Double playerTwoScore = 0.0;
 }
