@@ -1,7 +1,6 @@
 package SKNI.KOD.Literaki.service.game;
 
 import SKNI.KOD.Literaki.DTO.response.game.FieldsResponse;
-import SKNI.KOD.Literaki.entity.game.Board;
 import SKNI.KOD.Literaki.entity.game.Fields;
 import SKNI.KOD.Literaki.repository.game.BoardRepository;
 import SKNI.KOD.Literaki.repository.game.FieldsRepository;

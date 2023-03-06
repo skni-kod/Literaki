@@ -15,18 +15,18 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
-    public BoardResponse getResponse(Long id) {
+    public BoardResponse getBoard(Long id) {
         Board board = null;
         if(boardRepository.existsById(id))  board = boardRepository.findById(id).get();
         return new BoardResponse(board);
     }
 
-    public List<BoardResponse> getAllBoards() {
-        return boardRepository.findAll()
-                .stream()
-                .map(BoardResponse::new)
-                .collect(Collectors.toList());
-    }
+//    public List<BoardResponse> getAllBoards() {
+//        return boardRepository.findAll()
+//                .stream()
+//                .map(BoardResponse::new)
+//                .collect(Collectors.toList());
+//    }
 
     public BoardResponse createBoard(BoardRequest boardRequest){
         Board board = new Board();
@@ -45,10 +45,10 @@ public class BoardService {
         return new BoardResponse(board);
     }
 
-    public void deleteBoard(BoardResponse boardResponse){
-        if(boardRepository.existsById(boardResponse.getBoardId())){
+    public void deleteBoard(BoardRequest boardRequest){
+        if(boardRepository.existsById(boardRequest.getBoardId())){
             //TODO: delete both players wordbags, delete list of fields
-            boardRepository.deleteById(boardResponse.getBoardId());
+            boardRepository.deleteById(boardRequest.getBoardId());
         }
 
     }
