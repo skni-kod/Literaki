@@ -16,7 +16,7 @@ public class ProfileController {
     @Autowired
     private ProfileService profileService;
 
-    @GetMapping("")
+    @GetMapping
     public List<ProfileResponse> getAllProfiles() {
         return profileService.getAllProfiles();
     }
@@ -26,7 +26,7 @@ public class ProfileController {
         return profileService.getProfile(id);
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateProfile(ProfileRequest profileRequest){
         ProfileResponse profileResponse = profileService.updateProfile(profileRequest);
         return ResponseEntity.ok(profileResponse);

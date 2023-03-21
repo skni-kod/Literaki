@@ -16,7 +16,7 @@ public class WordsController {
     @Autowired
     private WordsService wordsService;
 
-    @GetMapping("")
+    @GetMapping
     public List<WordsResponse> getGames() {
         return wordsService.getAllWords();
     }
@@ -26,7 +26,7 @@ public class WordsController {
         return wordsService.getWords(id);
     }
 
-    @PostMapping("/words/create")
+    @PostMapping
     public ResponseEntity<?> createWords(WordsRequest wordsRequest){
     WordsResponse wordsResponse = wordsService.createWords(wordsRequest);
     return ResponseEntity.ok(wordsResponse);

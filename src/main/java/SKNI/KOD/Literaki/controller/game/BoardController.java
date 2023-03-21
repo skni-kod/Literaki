@@ -18,17 +18,17 @@ public class BoardController {
         return ResponseEntity.ok(boardService.getBoard(id));
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<?> createBoard(BoardRequest boardRequest){
         return ResponseEntity.ok(boardService.createBoard(boardRequest));
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<?> updateBoard(BoardRequest boardRequest){
         return ResponseEntity.ok(boardService.updateBoard(boardRequest));
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<?> deleteBoard(BoardRequest boardRequest){
         boardService.deleteBoard(boardRequest);
         return ResponseEntity.ok().build();

@@ -16,7 +16,7 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-    @GetMapping("")
+    @GetMapping
     public List<GameResponse> getGames() {
         return gameService.getAllGames();
     }
@@ -33,13 +33,13 @@ public class GameController {
         //return ResponseEntity.ok(gameResponse);
     //}
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateGame(GameRequest gameRequest){
         GameResponse gameResponse = gameService.updateGame(gameRequest);
         return ResponseEntity.ok(gameResponse);
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> finishGame(@PathVariable Long id){
         gameService.finishGame(id);
         return ResponseEntity.ok().build();

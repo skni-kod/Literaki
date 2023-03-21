@@ -16,7 +16,7 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<LoginResponse> createLogin(LoginRequest loginRequest, HttpServletRequest httpServletRequest){
         return ResponseEntity.ok(loginService.createLogin(loginRequest,httpServletRequest));
     }

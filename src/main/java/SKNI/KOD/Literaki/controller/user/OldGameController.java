@@ -15,7 +15,7 @@ public class OldGameController {
     @Autowired
     private OldGameService oldGameService;
 
-    @GetMapping("")
+    @GetMapping
     public List<OldGameResponse> getAllOldGames() {
         return oldGameService.getAllOldGames();
     }
@@ -25,7 +25,7 @@ public class OldGameController {
         return oldGameService.getOldGame(id);
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteOldGame(@PathVariable Long id){
         oldGameService.deleteOldGame(id);
         return ResponseEntity.ok().build();
