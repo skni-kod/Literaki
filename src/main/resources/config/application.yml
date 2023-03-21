@@ -1,8 +1,5 @@
 spring:
   mail:
-    password: otvklwvaveqcvedb
-    username: Literaki.SKNI@gmail.com
-    host: smtp.gmail.com
     port: 587
     protocol: smtp
     properties:
@@ -15,12 +12,48 @@ spring:
   datasource:
     url: 'jdbc:postgresql://localhost:5432/Literaki'
     driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: 123
   jpa:
     properties:
       hibernate:
         jdbc:
           lob:
             non_contextual_creation: true
+  servlet:
+    multipart:
+      max-file-size: '15MB'
+      max-request-size: '15MB'
+
+security:
+  authentication:
+    jwt:
+      secret: 'skni-literaki-strasznie-tajny-token'
+      token-validity: 2592000
+
+springdoc:
+  swagger-ui:
+    path: '/swagger.html'
+  paths-to-match: /**
+
 default-config:
   mail:
     project-mail: 'Literaki.SKNI@gmail.com'
+---
+spring:
+  config:
+    activate:
+      on-profile: default
+  mail:
+    password: otvklwvaveqcvedb
+    username: Literaki.SKNI@gmail.com
+    host: smtp.gmail.com
+---
+spring:
+  config:
+    activate:
+      on-profile: sendInBlue
+  mail:
+    password: 9fjP1tB4ZAvRaxD5
+    username: literaki.skni@gmail.com
+    host: smtp-relay.sendinblue.com
