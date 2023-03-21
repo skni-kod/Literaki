@@ -2,7 +2,7 @@ package SKNI.KOD.Literaki.entity.game;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Getter
@@ -29,11 +29,13 @@ public class Board {
     @JoinColumn(name = "player_one_word_bag_word_bag_id")
     private WordBag playerOneWordBag;
     @Column(nullable = false)
+    @Builder.Default
     private Double playerOneScore = 0.0;
 
     @OneToOne
     @JoinColumn(name = "player_two_word_bag_word_bag_id")
     private WordBag playerTwoWordBag;
     @Column(nullable = false)
+    @Builder.Default
     private Double playerTwoScore = 0.0;
 }

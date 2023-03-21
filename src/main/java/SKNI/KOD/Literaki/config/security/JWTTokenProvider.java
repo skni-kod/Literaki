@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.security.SignatureException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -28,7 +27,7 @@ public class JWTTokenProvider {
                 .setSubject(userDetailsImpl.getUsername().toLowerCase(Locale.ROOT))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime()+tokenValidity))
-                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
@@ -42,11 +41,7 @@ public class JWTTokenProvider {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
             return true;
-        } catch (MalformedJwtException e) {
-            e.printStackTrace();
-        } catch (UnsupportedJwtException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
+        } catch (MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
             e.printStackTrace();
         }
         return false;

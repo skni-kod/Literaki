@@ -1,9 +1,10 @@
 package SKNI.KOD.Literaki.entity.user;
 
-import javax.persistence.*;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 import java.time.ZonedDateTime;
 
-import com.sun.istack.Nullable;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

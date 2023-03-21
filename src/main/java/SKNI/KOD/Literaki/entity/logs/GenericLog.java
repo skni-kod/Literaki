@@ -3,7 +3,7 @@ package SKNI.KOD.Literaki.entity.logs;
 import SKNI.KOD.Literaki.util.ELogType;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.ZonedDateTime;
 
 @Getter

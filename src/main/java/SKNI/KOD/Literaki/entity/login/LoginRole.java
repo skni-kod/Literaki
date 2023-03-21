@@ -2,7 +2,7 @@ package SKNI.KOD.Literaki.entity.login;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Getter

@@ -28,7 +28,7 @@ spring:
 security:
   authentication:
     jwt:
-      secret: 'skni-literaki-strasznie-tajny-token'
+      secret: 'SkniLiterakiStrasznieTajnyTokenIWcaleNieZaKrotkiDlaAlgorytmowHS'
       token-validity: 2592000
 
 springdoc:

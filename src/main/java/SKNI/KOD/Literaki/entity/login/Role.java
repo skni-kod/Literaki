@@ -3,7 +3,7 @@ package SKNI.KOD.Literaki.entity.login;
 import SKNI.KOD.Literaki.util.ERole;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @Setter
