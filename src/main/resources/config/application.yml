@@ -1,4 +1,10 @@
+application:
+  title: ${spring.application.name}
+  version: v0.1
+
 spring:
+  application:
+    name: Projekt Literaki
   mail:
     port: 587
     protocol: smtp
@@ -24,6 +30,7 @@ spring:
     multipart:
       max-file-size: '15MB'
       max-request-size: '15MB'
+
 
 security:
   authentication:
